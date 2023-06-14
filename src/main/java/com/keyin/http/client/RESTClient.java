@@ -1,5 +1,8 @@
 package com.keyin.http.client;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keyin.domain.Airport;
 
 import java.io.IOException;
@@ -24,6 +27,11 @@ public class RESTClient {
             } else {
                 System.out.println("Error Status Code: " + response.statusCode());
             }
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            airports = mapper.readValue(response.body(), new TypeReference<List<Airport>>(){});
+
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
