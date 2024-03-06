@@ -15,11 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
+    private final String airportUri;
+    // Externalized the airport URI to be passed in via the constructor for flexibility
+
+    // Now we can tell RESTClient which web address to use when we create it
+    public RESTClient(String airportUri) {
+        this.airportUri = airportUri;
+    }
+
     public List<Airport> getAllAirports() {
-        List<Airport> airports = new ArrayList<Airport>();
+        List<Airport> airports = null;
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(airportUri)).build();
+   
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -41,12 +50,9 @@ public class RESTClient {
     }
 
     public List<Airport> buildAirportListFromResponse(String response) throws JsonProcessingException {
-        List<Airport> airports = new ArrayList<Airport>();
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        airports = mapper.readValue(response, new TypeReference<List<Airport>>(){});
-
-        return airports;
+        ObjectMapper mapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        // Directly return the result without intermediate variable
+        return mapper.readValue(response, new TypeReference<List<Airport>>() {
+        });
     }
 }

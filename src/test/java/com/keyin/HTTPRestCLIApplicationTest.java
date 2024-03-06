@@ -13,27 +13,30 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 @ExtendWith(MockitoExtension.class)
 public class HTTPRestCLIApplicationTest {
     @Mock
     private RESTClient mockRESTClient;
 
+
     @Test
     public void testGenerateAirportReport() {
-        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
+        // Major refactors here to use less clutter
 
-        Airport stJohnsAirport = new Airport();
-        stJohnsAirport.setCode("YYT");
-        stJohnsAirport.setName("St. John's Airport");
-        stJohnsAirport.setId(1);
+        // Consolidated Object Initialization
+        // Uses a single line instead of setting each property with a method call
+        List<Airport> airportList = new ArrayList<>();
+        airportList.add(new Airport(1, "St. John's Airport", "YYT"));
 
-        List<Airport> airportList = new ArrayList<Airport>();
-        airportList.add(stJohnsAirport);
-
+        //Tell Mock Rest Client to return airportList when method is called
         Mockito.when(mockRESTClient.getAllAirports()).thenReturn(airportList);
 
-        httpRestCLIApplicationUnderTest.setRestClient(mockRESTClient);
+        // Inject the mock RESTClient into the application
+        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication(mockRESTClient);
 
+        //Test Assertion remains unchanged
         Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
     }
 }
