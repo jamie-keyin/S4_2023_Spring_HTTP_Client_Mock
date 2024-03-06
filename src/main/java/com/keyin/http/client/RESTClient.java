@@ -1,5 +1,6 @@
 package com.keyin.http.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,15 +29,23 @@ public class RESTClient {
                 System.out.println("Error Status Code: " + response.statusCode());
             }
 
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            airports = mapper.readValue(response.body(), new TypeReference<List<Airport>>(){});
+            airports = buildAirportListFromResponse(response.body());
 
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
+
+        return airports;
+    }
+
+    public List<Airport> buildAirportListFromResponse(String response) throws JsonProcessingException {
+        List<Airport> airports = new ArrayList<Airport>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        airports = mapper.readValue(response, new TypeReference<List<Airport>>(){});
 
         return airports;
     }
