@@ -42,6 +42,10 @@ public class HTTPRestCLIApplication {
     }
 
     public static void main(String[] args) {
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+
         HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
 
         cliApp.setRestClient(new RESTClient());
