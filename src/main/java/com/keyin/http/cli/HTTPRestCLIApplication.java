@@ -8,9 +8,10 @@ import java.util.List;
 public class HTTPRestCLIApplication {
 
     private RESTClient restClient;
+    private String apiUrl; // to store the API URL
 
     public String generateAirportReport() {
-        List<Airport> airports = getRestClient().getAllAirports();
+        List<Airport> airports = getRestClient().getAllAirports(apiUrl);
 
         StringBuffer report = new StringBuffer();
 
@@ -41,6 +42,14 @@ public class HTTPRestCLIApplication {
         this.restClient = restClient;
     }
 
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
     public static void main(String[] args) {
         for (String arg : args) {
             System.out.println(arg);
@@ -49,6 +58,7 @@ public class HTTPRestCLIApplication {
         HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
 
         cliApp.setRestClient(new RESTClient());
+        cliApp.setApiUrl("http://localhost:8080/airports"); // set the API URL
 
         cliApp.generateAirportReport();
     }
