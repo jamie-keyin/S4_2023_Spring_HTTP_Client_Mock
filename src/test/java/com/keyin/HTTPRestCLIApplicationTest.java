@@ -30,9 +30,10 @@ public class HTTPRestCLIApplicationTest {
         List<Airport> airportList = new ArrayList<Airport>();
         airportList.add(stJohnsAirport);
 
-        Mockito.when(mockRESTClient.getAllAirports()).thenReturn(airportList);
+        Mockito.when(mockRESTClient.getAllAirports(Mockito.anyString())).thenReturn(airportList);
 
         httpRestCLIApplicationUnderTest.setRestClient(mockRESTClient);
+        httpRestCLIApplicationUnderTest.setApiUrl("http://localhost:8080/airports");
 
         Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
     }
