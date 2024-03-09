@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class HTTPRestCLIApplicationTest {
     private RESTClient mockRESTClient;
 
     @Test
-    public void testGenerateAirportReport() {
+    public void testGenerateAirportReport() throws IOException, InterruptedException {
         HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
 
         Airport stJohnsAirport = new Airport();
