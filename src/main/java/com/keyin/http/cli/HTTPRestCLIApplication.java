@@ -3,13 +3,14 @@ package com.keyin.http.cli;
 import com.keyin.domain.Airport;
 import com.keyin.http.client.RESTClient;
 
+import java.io.IOException;
 import java.util.List;
 
 public class HTTPRestCLIApplication {
 
     private RESTClient restClient;
 
-    public String generateAirportReport() {
+    public String generateAirportReport() throws IOException, InterruptedException {
         List<Airport> airports = getRestClient().getAllAirports();
 
         StringBuffer report = new StringBuffer();
@@ -41,7 +42,7 @@ public class HTTPRestCLIApplication {
         this.restClient = restClient;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         for (String arg : args) {
             System.out.println(arg);
         }
