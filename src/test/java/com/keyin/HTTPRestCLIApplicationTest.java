@@ -20,7 +20,7 @@ public class HTTPRestCLIApplicationTest {
 
     @Test
     public void testGenerateAirportReport() {
-        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
+        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication(mockRESTClient);
 
         Airport stJohnsAirport = new Airport();
         stJohnsAirport.setCode("YYT");

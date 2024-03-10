@@ -9,7 +9,13 @@ public class HTTPRestCLIApplication {
 
     private RESTClient restClient;
 
+    public HTTPRestCLIApplication(RESTClient restClient) {
+        this.restClient = restClient;
+    }
+
     public String generateAirportReport() {
+
+
         List<Airport> airports = getRestClient().getAllAirports();
 
         StringBuffer report = new StringBuffer();
@@ -31,13 +37,14 @@ public class HTTPRestCLIApplication {
 
     public RESTClient getRestClient() {
         if (restClient == null) {
-            restClient = new RESTClient();
+            restClient = new RESTClient("http://localhost:8080");
         }
 
         return restClient;
     }
 
     public void setRestClient(RESTClient restClient) {
+
         this.restClient = restClient;
     }
 
@@ -46,9 +53,9 @@ public class HTTPRestCLIApplication {
             System.out.println(arg);
         }
 
-        HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
+        RESTClient restClient = new RESTClient("http://localhost:8080");
 
-        cliApp.setRestClient(new RESTClient());
+        HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication(restClient);
 
         cliApp.generateAirportReport();
     }
