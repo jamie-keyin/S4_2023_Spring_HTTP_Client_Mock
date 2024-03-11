@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
+    // Define a constant for the URL
+    private static final String AIRPORTS_URL = "http://localhost:8080/airports";
     public List<Airport> getAllAirports() {
         List<Airport> airports = new ArrayList<Airport>();
-
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
-
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(AIRPORTS_URL)).build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode()==200) {
@@ -30,23 +30,17 @@ public class RESTClient {
             }
 
             airports = buildAirportListFromResponse(response.body());
-
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
-
         return airports;
     }
-
     public List<Airport> buildAirportListFromResponse(String response) throws JsonProcessingException {
         List<Airport> airports = new ArrayList<Airport>();
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         airports = mapper.readValue(response, new TypeReference<List<Airport>>(){});
-
         return airports;
     }
 }
