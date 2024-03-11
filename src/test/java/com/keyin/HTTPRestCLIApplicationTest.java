@@ -20,7 +20,8 @@ public class HTTPRestCLIApplicationTest {
 
     @Test
     public void testGenerateAirportReport() {
-        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
+        String baseUrl = "http://localhost:8080";
+        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication(baseUrl);
 
         Airport stJohnsAirport = new Airport();
         stJohnsAirport.setCode("YYT");

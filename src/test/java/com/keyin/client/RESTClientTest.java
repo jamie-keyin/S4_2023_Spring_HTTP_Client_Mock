@@ -13,7 +13,9 @@ public class RESTClientTest {
         String jsonResponse = "[\n{\n\"id\": 1,\n\"name\": \"St. John's\",\n\"code\": \"YYT\"\n},\n" +
                 "{\n\"id\": 2,\n\"name\": \"Deer Lake\",\n\"code\": \"YDF\"\n}\n]";
 
-        RESTClient restClientUnderTest = new RESTClient();
+        String baseUrl = "http://localhost:8080";
+
+        RESTClient restClientUnderTest = new RESTClient(baseUrl);
 
         List<Airport> airportList = restClientUnderTest.buildAirportListFromResponse(jsonResponse);
 
