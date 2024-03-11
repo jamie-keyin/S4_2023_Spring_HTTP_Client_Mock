@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,21 +20,28 @@ public class HTTPRestCLIApplicationTest {
     private RESTClient mockRESTClient;
 
     @Test
-    public void testGenerateAirportReport() {
-        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
+    public void testGenerateAirportReport() throws IOException, InterruptedException {
+        // Provide the URL when creating an instance of HTTPRestCLIApplication
+        String url = "http://localhost:8080/airports";
+        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication(url);
 
         Airport stJohnsAirport = new Airport();
         stJohnsAirport.setCode("YYT");
         stJohnsAirport.setName("St. John's Airport");
         stJohnsAirport.setId(1);
 
-        List<Airport> airportList = new ArrayList<Airport>();
+        List<Airport> airportList = new ArrayList<>();
         airportList.add(stJohnsAirport);
 
-        Mockito.when(mockRESTClient.getAllAirports()).thenReturn(airportList);
+        // Provide the URL when setting up the mock behavior for getAllAirports() method
+        Mockito.when(mockRESTClient.getAllAirports(url)).thenReturn(airportList);
 
         httpRestCLIApplicationUnderTest.setRestClient(mockRESTClient);
 
-        Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
+        // Call the method with the URL parameter
+        String report = httpRestCLIApplicationUnderTest.generateAirportReport();
+
+        // Assert that the report contains "YYT"
+        Assertions.assertTrue(report.contains("YYT"));
     }
 }

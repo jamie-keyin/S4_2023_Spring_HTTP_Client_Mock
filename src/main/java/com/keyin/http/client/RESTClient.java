@@ -15,15 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
-    // Define a constant for the URL
-    private static final String AIRPORTS_URL = "http://localhost:8080/airports";
-    public List<Airport> getAllAirports() {
-        List<Airport> airports = new ArrayList<Airport>();
+    public List<Airport> getAllAirports(String url) {
+        List<Airport> airports = new ArrayList<>();
+
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(AIRPORTS_URL)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode()==200) {
+            if (response.statusCode() == 200) {
                 System.out.println("***** " + response.body());
             } else {
                 System.out.println("Error Status Code: " + response.statusCode());
@@ -33,14 +33,17 @@ public class RESTClient {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
         return airports;
     }
+
     public List<Airport> buildAirportListFromResponse(String response) throws JsonProcessingException {
-        List<Airport> airports = new ArrayList<Airport>();
+        List<Airport> airports = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         airports = mapper.readValue(response, new TypeReference<List<Airport>>(){});
+
         return airports;
     }
 }

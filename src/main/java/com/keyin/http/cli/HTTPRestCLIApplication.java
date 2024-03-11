@@ -3,14 +3,21 @@ package com.keyin.http.cli;
 import com.keyin.domain.Airport;
 import com.keyin.http.client.RESTClient;
 
+import java.io.IOException;
 import java.util.List;
 
 public class HTTPRestCLIApplication {
 
+    private final String url;
     private RESTClient restClient;
 
-    public String generateAirportReport() {
-        List<Airport> airports = getRestClient().getAllAirports();
+    public HTTPRestCLIApplication(String url) {
+        this.url = url;
+    }
+
+    public String generateAirportReport() throws IOException, InterruptedException {
+        // Pass the URL when creating the RESTClient instance
+        List<Airport> airports = getRestClient().getAllAirports(url);
 
         StringBuffer report = new StringBuffer();
 
@@ -41,12 +48,10 @@ public class HTTPRestCLIApplication {
         this.restClient = restClient;
     }
 
-    public static void main(String[] args) {
-        for (String arg : args) {
-            System.out.println(arg);
-        }
-
-        HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        // Assuming the URL is provided as an argument when running the application
+        String url = args.length > 0 ? args[0] : "http://localhost:8080/airports";
+        HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication(url);
 
         cliApp.setRestClient(new RESTClient());
 
