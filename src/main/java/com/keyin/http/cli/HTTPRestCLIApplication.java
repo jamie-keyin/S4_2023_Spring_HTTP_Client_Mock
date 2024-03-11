@@ -8,6 +8,7 @@ import java.util.List;
 public class HTTPRestCLIApplication {
 
     private RESTClient restClient;
+    private final String baseUrl = "http://localhost:8080/airports"; // Add your API URL here
 
     public String generateAirportReport() {
         List<Airport> airports = getRestClient().getAllAirports();
@@ -31,7 +32,7 @@ public class HTTPRestCLIApplication {
 
     public RESTClient getRestClient() {
         if (restClient == null) {
-            restClient = new RESTClient();
+            restClient = new RESTClient(baseUrl); // Pass the base URL to the RESTClient constructor
         }
 
         return restClient;
@@ -42,13 +43,10 @@ public class HTTPRestCLIApplication {
     }
 
     public static void main(String[] args) {
-        for (String arg : args) {
-            System.out.println(arg);
-        }
-
         HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
 
-        cliApp.setRestClient(new RESTClient());
+        // If you want to set the RESTClient through the setter method:
+        // cliApp.setRestClient(new RESTClient("http://your.api.url"));
 
         cliApp.generateAirportReport();
     }
