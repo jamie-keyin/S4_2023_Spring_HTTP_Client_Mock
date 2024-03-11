@@ -1,3 +1,8 @@
+//Written By Jamie Cornick
+//Refactored to allow URL to be passed as variable
+//Refactored By Tanner Jones
+//Date: March 8th 2024
+
 package com.keyin.http.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -15,11 +20,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
+    private String baseUrl;
+
+    /**
+     * Constructs a new REST client with the specified base URL.
+     * If no base URL is specified, "http://localhost:8080" is used.
+     *
+     * @param baseUrl The base URL for the API endpoint
+     */
+    public RESTClient(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
+    public RESTClient() {
+        // Base URL for the API endpoint
+        this("http://localhost:8080");
+    }
+
     public List<Airport> getAllAirports() {
         List<Airport> airports = new ArrayList<Airport>();
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/airports")).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
