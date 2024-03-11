@@ -15,33 +15,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
-    public List<Airport> getAllAirports() {
-        List<Airport> airports = new ArrayList<Airport>();
+    public List<Airport> getAllAirports(String url) {
+        List<Airport> airports = new ArrayList<>();
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode()==200) {
+            if (response.statusCode() == 200) {
                 System.out.println("***** " + response.body());
             } else {
                 System.out.println("Error Status Code: " + response.statusCode());
             }
 
             airports = buildAirportListFromResponse(response.body());
-
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
 
         return airports;
     }
 
     public List<Airport> buildAirportListFromResponse(String response) throws JsonProcessingException {
-        List<Airport> airports = new ArrayList<Airport>();
+        List<Airport> airports = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
