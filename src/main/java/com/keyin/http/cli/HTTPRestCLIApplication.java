@@ -10,7 +10,7 @@ public class HTTPRestCLIApplication {
     private RESTClient restClient;
 
     public String generateAirportReport() {
-        List<Airport> airports = getRestClient().getAllAirports();
+        List<Airport> airports = getRestClient().getAllAirports("http://localhost:8080/airports");
 
         StringBuffer report = new StringBuffer();
 

@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 @ExtendWith(MockitoExtension.class)
 public class HTTPRestCLIApplicationTest {
@@ -30,7 +31,7 @@ public class HTTPRestCLIApplicationTest {
         List<Airport> airportList = new ArrayList<Airport>();
         airportList.add(stJohnsAirport);
 
-        Mockito.when(mockRESTClient.getAllAirports()).thenReturn(airportList);
+        Mockito.when(mockRESTClient.getAllAirports("http://localhost:8080/airports")).thenReturn(airportList);
 
         httpRestCLIApplicationUnderTest.setRestClient(mockRESTClient);
 
