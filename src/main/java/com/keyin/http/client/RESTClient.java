@@ -15,11 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
+
+    private final String baseUrl;
+
+    public RESTClient(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     public List<Airport> getAllAirports() {
         List<Airport> airports = new ArrayList<Airport>();
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseUrl + "/airports")).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

@@ -9,6 +9,10 @@ public class HTTPRestCLIApplication {
 
     private RESTClient restClient;
 
+    public HTTPRestCLIApplication(String baseUrl) {
+        this.restClient = new RESTClient(baseUrl);
+    }
+
     public String generateAirportReport() {
         List<Airport> airports = getRestClient().getAllAirports();
 
@@ -30,9 +34,9 @@ public class HTTPRestCLIApplication {
     }
 
     public RESTClient getRestClient() {
-        if (restClient == null) {
-            restClient = new RESTClient();
-        }
+//        if (restClient == null) {
+//            restClient = new RESTClient();
+//        }
 
         return restClient;
     }
@@ -46,9 +50,9 @@ public class HTTPRestCLIApplication {
             System.out.println(arg);
         }
 
-        HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
+        HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication("http://localhost:8080");
 
-        cliApp.setRestClient(new RESTClient());
+//        cliApp.setRestClient(new RESTClient());
 
         cliApp.generateAirportReport();
     }
