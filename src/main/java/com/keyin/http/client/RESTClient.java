@@ -8,6 +8,7 @@ import com.keyin.domain.Airport;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -19,7 +20,8 @@ public class RESTClient {
         List<Airport> airports = new ArrayList<Airport>();
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
+        // I would probably want to configure this as an env variable instead of again hardcoding, but this is at least more dynamic
+        HttpRequest request = buildHttpRequest("http://localhost:8080/airports");
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -49,4 +51,14 @@ public class RESTClient {
 
         return airports;
     }
+
+    // Method to build Http request uri. Takes argument URI as string and is then embedded into the request builder.
+    public HttpRequest buildHttpRequest(String uri){
+        try{
+            return HttpRequest.newBuilder().uri(URI.create(uri)).build();
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error creating URI from given string - " + uri);
+            throw new RuntimeException();
+        }
+    };
 }
