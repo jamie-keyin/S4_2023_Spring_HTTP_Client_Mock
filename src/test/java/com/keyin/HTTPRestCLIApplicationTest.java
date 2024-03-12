@@ -36,4 +36,9 @@ public class HTTPRestCLIApplicationTest {
 
         Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
     }
+    @Test
+    public void testBuildHttpRequest() {
+        RESTClient testRestClient = new RESTClient();
+        Assertions.assertThrows(RuntimeException.class, () -> testRestClient.buildHttpRequest("Not a URI"));
+    }
 }
