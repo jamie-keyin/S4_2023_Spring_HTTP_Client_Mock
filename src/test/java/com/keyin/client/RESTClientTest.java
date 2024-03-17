@@ -21,4 +21,17 @@ public class RESTClientTest {
 
         Assertions.assertTrue(airportList.contains(new Airport("YDF")));
     }
+        // One additional test
+    @Test
+    public void testBuildAirportListFromEmptyResponse() throws Exception {
+        String emptyJsonResponse = "[]";
+
+        RESTClient restClientUnderTest = new RESTClient();
+
+        List<Airport> airportList = restClientUnderTest.buildAirportListFromResponse(emptyJsonResponse);
+
+        // Ensure the list is empty
+        Assertions.assertTrue(airportList.isEmpty());
+    }
+
 }
