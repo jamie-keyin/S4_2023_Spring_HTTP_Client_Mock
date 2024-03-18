@@ -36,4 +36,18 @@ public class HTTPRestCLIApplicationTest {
 
         Assertions.assertTrue(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
     }
+        // One additional test
+    @Test
+    public void testGenerateAirportReportEmptyList() {
+        HTTPRestCLIApplication httpRestCLIApplicationUnderTest = new HTTPRestCLIApplication();
+
+        List<Airport> airportList = new ArrayList<>();
+
+        Mockito.when(mockRESTClient.getAllAirports()).thenReturn(airportList);
+
+        httpRestCLIApplicationUnderTest.setRestClient(mockRESTClient);
+
+        // Ensure the empty list does not contain any airport code
+        Assertions.assertFalse(httpRestCLIApplicationUnderTest.generateAirportReport().contains("YYT"));
+    }
 }
