@@ -15,14 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RESTClient {
+    private String serverURL;
+    private HttpClient client;
+
+
     public List<Airport> getAllAirports() {
         List<Airport> airports = new ArrayList<Airport>();
 
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/airports")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(serverURL)).build();
 
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = getClient().send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode()==200) {
                 System.out.println("***** " + response.body());
             } else {
@@ -48,5 +51,21 @@ public class RESTClient {
         airports = mapper.readValue(response, new TypeReference<List<Airport>>(){});
 
         return airports;
+    }
+
+    public String getServerURL() {
+        return serverURL;
+    }
+
+    public void setServerURL(String serverURL) {
+        this.serverURL = serverURL;
+    }
+
+    public HttpClient getClient() {
+        if (client == null) {
+            client  = HttpClient.newHttpClient();
+        }
+
+        return client;
     }
 }

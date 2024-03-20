@@ -48,8 +48,17 @@ public class HTTPRestCLIApplication {
 
         HTTPRestCLIApplication cliApp = new HTTPRestCLIApplication();
 
-        cliApp.setRestClient(new RESTClient());
+        String serverURL = args[0];
 
-        cliApp.generateAirportReport();
+        if (serverURL != null && !serverURL.isEmpty()) {
+
+            RESTClient restClient = new RESTClient();
+            restClient.setServerURL(serverURL);
+
+            cliApp.setRestClient(restClient);
+
+            cliApp.generateAirportReport();
+        }
+
     }
 }
